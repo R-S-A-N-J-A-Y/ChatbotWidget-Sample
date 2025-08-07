@@ -6,7 +6,7 @@ const App = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="absolute bottom-10 right-10 flex flex-col items-end gap-2">
+    <div className="fixed bottom-10 right-10 flex flex-col items-end gap-2">
       {open && (
         <div className="bg-gray-200 p-5 w-100 h-100 rounded-2xl">
           <h3>Hello! I’m your assistant</h3>
