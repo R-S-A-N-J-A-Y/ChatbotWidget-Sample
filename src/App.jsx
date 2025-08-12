@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { FaArrowUp } from "react-icons/fa";
 import { RxCross1 } from "react-icons/rx";
 import { TbMessageChatbot } from "react-icons/tb";
 
@@ -29,7 +30,7 @@ const Chat = ({ chat }) => {
   );
 };
 
-const chatData = [
+const SampleChatData = [
   {
     id: 1,
     time: "2025-08-12T10:15:00Z",
@@ -66,21 +67,74 @@ const chatData = [
     sender: "bot",
     msg: "Glad you liked it! 😊",
   },
-  {
-    id: 7,
-    time: "2025-08-12T10:15:25Z",
-    sender: "user",
-    msg: "Sure! Why did the programmer quit his job? Because he didn’t get arrays. Sure! Why did the programmer quit his job? Because he didn’t get arrays.Sure! Why did the programmer quit his job? Because he didn’t get arrays.",
-  },
 ];
 
 const ChatContainer = () => {
+  const [chatData, setChatData] = useState(SampleChatData);
+  const bottomRef = useRef(null);
+  const textareaRef = useRef(null);
+  let currChat = "";
+
+  const handleInput = (e) => {
+    const el = textareaRef.current;
+    el.style.height = "auto";
+    el.style.height = `${el.scrollHeight}px`;
+    currChat = e.target.value;
+  };
+
+  const OnClick = () => {
+    setChatData([
+      ...chatData,
+      {
+        msg: currChat,
+        id: chatData.length + 1,
+        sender: "user",
+        time: new Date(),
+      },
+    ]);
+    currChat = "";
+    textareaRef.current.value = "";
+    textareaRef.current.style.height = "40px";
+  };
+
+  const HandleKeyDown = (e) => {
+    if (e.code === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      OnClick();
+    }
+  };
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chatData]);
+
   return (
-    <div className="bg-gray-100 px-7 py-10 w-100 h-100 rounded-2xl overflow-y-scroll">
-      <div className="flex flex-col justify-bottom gap-3 w-full">
+    <div className="bg-gray-50 w-100 h-120 rounded-2xl overflow-y-scroll">
+      <div className="sticky top-0 bg-blue-500 w-full px-2 py-3">
+        <p className="text-center font-semibold text-white text-2xl">
+          Myanatomy Chatbot
+        </p>
+      </div>
+      <div className="px-7 py-5 flex flex-col gap-3 w-full">
         {chatData.map((chat) => (
-          <Chat chat={chat} />
+          <Chat key={chat.id} chat={chat} />
         ))}
+        <div ref={bottomRef} />
+      </div>
+      <div className="sticky bottom-0 flex gap-3 bg-gray-100 px-5 py-3 border-t">
+        <textarea
+          ref={textareaRef}
+          onInput={handleInput}
+          onKeyDown={HandleKeyDown}
+          className="resize-none rounded-md min-h-[40px] max-h-[80px] w-full outline-none"
+          placeholder="We are here to help you..."
+        />
+        <button
+          className="bg-blue-700 rounded-full w-12 h-10 flex items-center justify-center cursor-pointer"
+          onClick={OnClick}
+        >
+          <FaArrowUp color="white" size={19} />
+        </button>
       </div>
     </div>
   );
