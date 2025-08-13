@@ -69,9 +69,7 @@ const SampleChatData = [
   },
 ];
 
-const ChatContainer = () => {
-  const isDark = window.ChatbotConfig?.isDark ?? false;
-
+const ChatContainer = ({ isDark }) => {
   const [chatData, setChatData] = useState(SampleChatData);
   const bottomRef = useRef(null);
   const textareaRef = useRef(null);
@@ -113,7 +111,7 @@ const ChatContainer = () => {
   return (
     <div
       className={`${
-        isDark ? "bg-gray-500" : "bg-gray-50"
+        isDark ? "bg-gray-800" : "bg-gray-50"
       } w-100 h-120 rounded-2xl overflow-y-scroll`}
     >
       <div className="sticky top-0 bg-blue-500 w-full px-2 py-3">
@@ -127,12 +125,18 @@ const ChatContainer = () => {
         ))}
         <div ref={bottomRef} />
       </div>
-      <div className="sticky bottom-0 flex gap-3 bg-gray-100 px-5 py-3 border-t">
+      <div
+        className={`sticky bottom-0 flex gap-3 ${
+          isDark ? "bg-gray-700" : "bg-gray-100"
+        } px-5 py-3 border-t`}
+      >
         <textarea
           ref={textareaRef}
           onInput={handleInput}
           onKeyDown={HandleKeyDown}
-          className="resize-none rounded-md min-h-[40px] max-h-[80px] w-full outline-none"
+          className={`resize-none rounded-md min-h-[40px] max-h-[80px] w-full outline-none ${
+            isDark ? "text-white" : "text-black"
+          }`}
           placeholder="We are here to help you..."
         />
         <button
@@ -160,11 +164,9 @@ const App = () => {
 
   return (
     <div className="fixed bottom-10 right-10 flex flex-col items-end gap-2">
-      {open && <ChatContainer />}
+      {open && <ChatContainer isDark={isDark} />}
       <button
-        className={`p-2 h-15 w-15 flex items-center justify-center cursor-pointer ${
-          isDark ? "bg-amber-300" : "bg-blue-700"
-        } rounded-xl outline-none`}
+        className="p-2 h-15 w-15 flex items-center justify-center cursor-pointer bg-blue-700 rounded-xl outline-none"
         onClick={() => setOpen(!open)}
       >
         {open ? (
