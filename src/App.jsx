@@ -70,6 +70,8 @@ const SampleChatData = [
 ];
 
 const ChatContainer = () => {
+  const isDark = window.ChatbotConfig?.isDark ?? false;
+
   const [chatData, setChatData] = useState(SampleChatData);
   const bottomRef = useRef(null);
   const textareaRef = useRef(null);
@@ -109,7 +111,11 @@ const ChatContainer = () => {
   }, [chatData]);
 
   return (
-    <div className="bg-gray-50 w-100 h-120 rounded-2xl overflow-y-scroll">
+    <div
+      className={`${
+        isDark ? "bg-gray-500" : "bg-gray-50"
+      } w-100 h-120 rounded-2xl overflow-y-scroll`}
+    >
       <div className="sticky top-0 bg-blue-500 w-full px-2 py-3">
         <p className="text-center font-semibold text-white text-2xl">
           Myanatomy Chatbot
