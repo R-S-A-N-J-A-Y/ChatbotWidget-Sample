@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { FaArrowUp } from "react-icons/fa";
 import { RxCross1 } from "react-icons/rx";
@@ -16,7 +17,11 @@ const Chat = ({ chat, isDark }) => {
           chat.sender === "user" ? "items-end" : "items-start"
         } gap-1`}
       >
-        <div className={` ${isDark ? "text-white bg-gray-700" : "text-black bg-gray-200"}  p-3 rounded-lg min-w-[120px] max-w-[285px]`}>
+        <div
+          className={` ${
+            isDark ? "text-white bg-gray-700" : "text-black bg-gray-200"
+          }  p-3 rounded-lg min-w-[120px] max-w-[285px]`}
+        >
           <h3>{chat.msg}</h3>
         </div>
         <p className="p-0 m-0 ms-2 text-xs text-gray-500">
@@ -134,9 +139,12 @@ const ChatContainer = ({ isDark }) => {
           ref={textareaRef}
           onInput={handleInput}
           onKeyDown={HandleKeyDown}
-          className={`resize-none rounded-md min-h-[40px] max-h-[80px] w-full outline-none ${
-            isDark ? "text-white" : "text-black"
-          }`}
+          className={clsx(
+            "resize-none rounded-md min-h-[40px] max-h-[80px] w-full outline-none",
+            isDark
+              ? "placeholder-gray-300 text-white "
+              : "placeholder-gray-500 text-black"
+          )}
           placeholder="We are here to help you..."
         />
         <button
