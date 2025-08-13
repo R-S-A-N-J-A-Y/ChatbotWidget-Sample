@@ -4,15 +4,20 @@
 
   const isDark = window.ChatbotConfig?.isDark || false;
 
-  window.ChatbotConfig = {
+   window.ChatbotConfig = {
     ...(window.ChatbotConfig || {}),
     isDark,
+    onThemeChange: function (theme) {
+      window.ChatbotConfig.isDark = theme;
+      window.dispatchEvent(
+        new CustomEvent("chatbot-theme-change", { detail: { isDark: theme } })
+      );
+    },
   };
 
   // 1. Create container div
   const div = document.createElement("div");
   div.id = "chatbot-root";
-  div.setAttribute("theme", isDark ? "dark" : "light");
   document.body.appendChild(div);
 
   // 2. Load React App (built version)

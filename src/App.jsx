@@ -148,12 +148,23 @@ const ChatContainer = () => {
 
 const App = () => {
   const [open, setOpen] = useState(false);
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    const handler = (e) => {
+      setIsDark(e.detail.isDark);
+    };
+    window.addEventListener("chatbot-theme-change", handler);
+    return () => window.removeEventListener("chatbot-theme-change", handler);
+  }, []);
 
   return (
     <div className="fixed bottom-10 right-10 flex flex-col items-end gap-2">
       {open && <ChatContainer />}
       <button
-        className="p-2 h-15 w-15 flex items-center justify-center cursor-pointer bg-blue-700 rounded-xl outline-none"
+        className={`p-2 h-15 w-15 flex items-center justify-center cursor-pointer ${
+          isDark ? "bg-amber-300" : "bg-blue-700"
+        } rounded-xl outline-none`}
         onClick={() => setOpen(!open)}
       >
         {open ? (
