@@ -3,7 +3,7 @@ import { FaArrowUp } from "react-icons/fa";
 import { RxCross1 } from "react-icons/rx";
 import { TbMessageChatbot } from "react-icons/tb";
 
-const Chat = ({ chat }) => {
+const Chat = ({ chat, isDark }) => {
   return (
     <div
       key={chat.id}
@@ -16,7 +16,7 @@ const Chat = ({ chat }) => {
           chat.sender === "user" ? "items-end" : "items-start"
         } gap-1`}
       >
-        <div className=" bg-gray-200 p-3 rounded-lg min-w-[120px] max-w-[285px]">
+        <div className={` ${isDark ? "text-white bg-gray-700" : "text-black bg-gray-200"}  p-3 rounded-lg min-w-[120px] max-w-[285px]`}>
           <h3>{chat.msg}</h3>
         </div>
         <p className="p-0 m-0 ms-2 text-xs text-gray-500">
@@ -121,7 +121,7 @@ const ChatContainer = ({ isDark }) => {
       </div>
       <div className="px-7 py-5 flex flex-col gap-3 w-full">
         {chatData.map((chat) => (
-          <Chat key={chat.id} chat={chat} />
+          <Chat key={chat.id} chat={chat} isDark={isDark} />
         ))}
         <div ref={bottomRef} />
       </div>
@@ -152,7 +152,7 @@ const ChatContainer = ({ isDark }) => {
 
 const App = () => {
   const [open, setOpen] = useState(false);
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(true);
 
   useEffect(() => {
     const handler = (e) => {
