@@ -160,7 +160,7 @@ const ChatContainer = ({ isDark }) => {
 
 const App = () => {
   const [open, setOpen] = useState(false);
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
     const handler = (e) => {
